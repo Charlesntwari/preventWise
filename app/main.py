@@ -4,6 +4,8 @@ from app.models.diabetes import predict_diabetes_disease
 from app.schemas.diabetes import DiabetesInput
 from app.schemas.heart_disease import HeartDiseaseInput
 from app.models.heart_disease import predict_heart_disease
+from app.schemas.stroke import StrokeInput
+from app.models.stroke import predict_stroke
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -38,6 +40,15 @@ def predict_diabetes(data: DiabetesInput):
 def predict_heart(data: HeartDiseaseInput):
     prediction = predict_heart_disease(data.dict())
     result = "Heart Disease Detected" if prediction == 1 else "No Heart Disease Detected"
+    return {
+        "prediction": prediction,
+        "result": result
+    }
+
+@app.post("/predict/stroke")
+def predict_stroke_risk(data: StrokeInput):
+    prediction = predict_stroke(data.dict())
+    result = "High Risk of Stroke" if prediction == 1 else "Low Risk of Stroke"
     return {
         "prediction": prediction,
         "result": result
