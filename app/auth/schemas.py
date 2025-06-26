@@ -23,10 +23,12 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    is_admin: int = 0
 
 class User(UserBase):
     id: int
     predictions: List[PredictionHistory] = []
+    is_admin: int = 0
 
     class Config:
         orm_mode = True
@@ -37,4 +39,16 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+class ContactMessageCreate(BaseModel):
+    name: str
+    subject: str
+    message: str
+
+class ContactMessage(ContactMessageCreate):
+    id: int
+    email: str
+    timestamp: datetime.datetime
+    class Config:
+        orm_mode = True
 
